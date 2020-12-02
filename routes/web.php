@@ -21,3 +21,8 @@ $router->get('/', function () use ($router) {
 $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
+
+$router->group(['prefix' => 'api/'], function ($router) {
+    $router->get('/login','UserController@authenticate');
+    $router->resource('event', 'EventController')->middleware('auth')
+});
