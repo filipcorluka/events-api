@@ -12,12 +12,12 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'venue', 'lat', 'lon', 'startDate', 'endDate',
+        'name',
+        'venue',
+        'lat',
+        'lon',
+        'startDate',
+        'endDate',
+        'userId'
     ];
-
-
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
 }

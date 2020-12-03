@@ -24,5 +24,11 @@ $router->get('/key', function() {
 
 $router->group(['prefix' => 'api/'], function ($router) {
     $router->get('/login','UserController@authenticate');
-    $router->resource('event', 'EventController')->middleware('auth')
+	$router->group(['middleware' => 'auth'], function ($router) {
+	    $router->get('/event', 'EventController@index');
+	    $router->get('/event/{id}', 'EventController@show');
+	    $router->post('/event', 'EventController@store');
+	    $router->put('/event/{id}', 'EventController@update');
+	    $router->delete('/event/{id}', 'EventController@delete');
+	});
 });

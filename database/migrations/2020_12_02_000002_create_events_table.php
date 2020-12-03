@@ -17,9 +17,9 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->foreignId('userId')->constrained();
             $table->string('name');
-            $table->string('venue');
-            $table->string('lat');
-            $table->string('lon');
+            $table->string('venue')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lon')->nullable();
             $table->datetime('startDate');
             $table->datetime('endDate');
             $table->timestamps();
