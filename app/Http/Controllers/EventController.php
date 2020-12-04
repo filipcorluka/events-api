@@ -54,17 +54,13 @@ class EventController extends Controller
             abort(401, 'Unauthorized action.');
         }
 
-        if ($request->has('startDate') || $request->has('startDate')) {
+        if ($request->has('startDate') || $request->has('endDate')) {
             
             $startDate = Carbon::create($request->has('startDate') ? $request->input('startDate') : $event->startDate);
             $endDate   = Carbon::create($request->has('endDate') ? $request->input('endDate') : $event->endDate);
             if ($startDate->gte($endDate)) {
                 return response()->json(['status' => 'Start time is greater than or equal end time.' ], 422);
             }
-            if ($endDate->lte($startDate)) {
-                return response()->json(['status' => 'End time is less than or equal start time.' ], 422);
-            }
-
         } 
 
         $event->update($request->all());
@@ -75,17 +71,13 @@ class EventController extends Controller
     public function delete(Request $request, $id)
     {
         $event = Event::findOrFail($id);
-        if(!$event) {
-            abort(401, 'Unauthorized action.');
-        }
 
         $now = Carbon::now();
         if($now->gte($event->startDate) && $now->lte($event->endDate)) {
             abort(401, 'Unauthorized action.');
         }
 
-        $event->delete();
-        return 204;
+        return $event->delete();
     }
 
     private function getUserId($request)
